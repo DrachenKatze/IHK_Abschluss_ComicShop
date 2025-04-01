@@ -1,5 +1,6 @@
 package Logic;
 
+import Model.Customer;
 import Model.Inventory;
 import Model.Manga;
 
@@ -8,10 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InventroyHandler extends DatebaseHandler{
-
-
-
-
 
     // Lade Daten aus der Manga Datenbank
     public List<Inventory> loadInventoryList(){
@@ -35,7 +32,8 @@ public class InventroyHandler extends DatebaseHandler{
                                                                 Manga.getBestellStatusByString(rs.getString("lieferstatus"))
                                                                 ),
                                                     rs.getInt("bestand"),
-                                                    Inventory.getConditionByString(rs.getString("zustand")) ) );
+                                                    Inventory.getConditionByString(rs.getString("zustand")),
+                                                    rs.getInt("id") ) );
                 }
 
             }catch(SQLException e) {
@@ -47,9 +45,32 @@ public class InventroyHandler extends DatebaseHandler{
         return storeInventory;
     }
 
-    // todo
-    // Schreibe Datensatz in Datenbank
+    // Update eines Datensatzes in der Datenbank
+    public static void updateInventoryDB(int id, int value) {
+        try {
+            Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+            String query = "UPDATE MangaInventory SET bestand = ? WHERE id = ?";
 
+            try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+
+                // Parameter setzen
+                pstmt.setInt(1, value);       // Ändert Wert
+                pstmt.setInt(2, id);     // Datensatzes, der aktualisiert werden soll
+
+                // SQL-Abfrage ausführen und Anzahl der betroffenen Zeilen erhalten
+                int rowsAffected = pstmt.executeUpdate();
+                System.out.println(rowsAffected + " Zeile(n) aktualisiert." + id + value);
+
+            } catch (SQLException e) {
+                System.out.println("Fehler beim Aktualisieren des Datensatzes: " + e.getMessage());
+            }
+        }catch (SQLException e) {
+            System.out.println("Fehler bei der Verbindung zur Datenbank: " + e.getMessage());
+        }
+    }
+
+    // todo - Schreibe Datensatz in Datenbank
+    public static void insertInventoryDB(){}
 
     // erzeugt String Liste für die Ausgabe in der Tabelle
     public String[][] createStringLine(List<Inventory> inventoryList){

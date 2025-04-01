@@ -7,12 +7,14 @@ public class Inventory extends Manga {
     private Manga iManga;
     private int iValue;
     private Condition iCondition;
+    private int id;
 
-    public Inventory(Manga manga, int value, Condition condition){
+    public Inventory(Manga manga, int value, Condition condition, int id){
         super(manga.getName(), manga.getNumber(), manga.getPreis(), manga.getStatus() );
         iManga = manga;
         iValue = value;
         iCondition = condition;
+        this.id = id;
     }
 
     // Setter
@@ -29,6 +31,9 @@ public class Inventory extends Manga {
     }
     public Condition getiCondition() {
         return iCondition;
+    }
+    public int getId(){
+        return id;
     }
 
     public static Condition getConditionByString(String status){

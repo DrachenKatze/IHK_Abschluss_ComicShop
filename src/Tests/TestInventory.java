@@ -8,7 +8,7 @@ import java.util.*;
 public class TestInventory {
 
     public static void main(String[] args) {
-
+/*
         List<Inventory> mangaBestand = new ArrayList<>();
         mangaBestand.add(new Inventory(new Manga("Doragon", 1), 3, Inventory.Condition.New));
         mangaBestand.add(new Inventory(new Manga("Doragon", 1), 7, Inventory.Condition.Used));
@@ -18,6 +18,6 @@ public class TestInventory {
         ausgabe += " " + mangaBestand.getFirst().getiValue();
         ausgabe += " " + mangaBestand.getFirst().getiCondition();
 
-        System.out.println(ausgabe);
+        System.out.println(ausgabe); */
     }
 }

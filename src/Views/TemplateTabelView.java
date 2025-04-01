@@ -92,8 +92,8 @@ public class TemplateTabelView {
 
     public void initInventoryButtons(){
         button1 = new JButton("Verkaufen");
-        button2 = new JButton("Bestellen");
-        button3 = new JButton("Bestand+");
+        button2 = new JButton("Bestand Erhöhen");
+        button3 = new JButton("Bestellen");
         statusSelect.setVisible(false);
     }
 
@@ -106,9 +106,8 @@ public class TemplateTabelView {
 
     public void initOrderStatusButtons(){
         button1 = new JButton("Stornieren");
-        //button2 = new JButton("Status ändern");
         button2.setVisible(false);
-        statusSelect.setVisible(true);
+        statusSelect.setVisible(true); // Status ändern
         button3.setVisible(false);
     }
 

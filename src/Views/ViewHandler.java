@@ -14,26 +14,26 @@ public class ViewHandler {
     ButtonEventsHandler buttonEvents = new ButtonEventsHandler();
 
     // Views definieren
-    static TemplateTabelView itemInventory = new TemplateTabelView();              // Inventar für den Verkauf
+    TemplateTabelView itemInventory = new TemplateTabelView();              // Inventar für den Verkauf
     TemplateTabelView itemOverview = new TemplateTabelView();               // Programm Übersicht der MangaSerien
     TemplateTabelView orderStatus = new TemplateTabelView();                // Übersicht aller Bestellungen
     TemplateTabelView customerAdministration = new TemplateTabelView();     // Nutzerverwaltung
 
     // ColumNames initialisieren
-    static String[] itemInventoryTableColumnsNames = {"Manga", "Band", "Preis", "Zustand", "Bestand", "Liefer-Status"};    // Inventar
+    String[] itemInventoryTableColumnsNames = {"Manga", "Band", "Preis", "Zustand", "Bestand", "Liefer-Status"};    // Inventar
     String[] itemOverviewTableColumnsNames = {"Manga Serie", "Anzahl Bände", "Autor", "Verlag"};                    // Programm Übersicht
     String[] customerOrdersTableColumNames = {"Manga", "Band", "Kunde", "Bestell-Status"};                          // Bestell-Übersicht
     String[] customerAdministrationTableColumNames = {"Name", "Strasse", "Ort", "PLZ", "Email", "Telefon"};         // Nutzerverwaltung
 
     // Daten Handler für Zugriff auf die Datenmodelle definieren
-    static InventroyHandler inventoryDaten = new InventroyHandler();
+    InventroyHandler inventoryDaten = new InventroyHandler();
     MangaSerieHandler mangaSerienDaten = new MangaSerieHandler();
     CustomerHandler customerDaten = new CustomerHandler();
     OrderHandler ordersDaten = new OrderHandler();
 
     // Daten über Handler aus der Datenbank bereitstellen
     List<MangaSerie> mangaSerieListe = mangaSerienDaten.loadMangaSeriesList();
-    static List<Inventory> inventoryList = inventoryDaten.loadInventoryList();
+    List<Inventory> inventoryList = inventoryDaten.loadInventoryList();
     List<Customer> customerList = customerDaten.loadCustomerList();
     List<Order> orderList = ordersDaten.loadOrdersList();
 
@@ -53,7 +53,7 @@ public class ViewHandler {
         initView(customerAdministration, customerAdministrationTableColumNames, customerDaten.createStringLine(customerList));
 
         // ButtonEvents zuweisen, darf erst nach dem Initialisieren der Buttons erfolgen
-        buttonEvents.ListenerInventoryButtons(itemInventory, inventoryList);
+        buttonEvents.ListenerInventoryButtons(itemInventory, inventoryList, customerList); // Inventar + Kunden
         buttonEvents.ListenerItemOverview(itemOverview, mangaSerieListe);
         buttonEvents.ListenerOrderButtons(orderStatus);
         buttonEvents.ListenerCustomerAdministration(customerAdministration);
@@ -73,9 +73,4 @@ public class ViewHandler {
             view.addRow(rowArray[i]);
         }
     }
-
-    public static void refreashInventoryTable(){
-        initView(itemInventory, itemInventoryTableColumnsNames, inventoryDaten.createStringLine(inventoryList));
-    }
-
 }

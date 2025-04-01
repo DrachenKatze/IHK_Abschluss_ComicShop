@@ -1,12 +1,12 @@
 package Logic;
 
+import Model.Customer;
 import Model.MangaSerie;
 import Model.Order;
 import Model.Inventory;
 import Views.CustomerEditView;
 import Views.TemplateTabelView;
 import Views.UserSelectWindow;
-import Views.ViewHandler;
 
 import java.util.List;
 
@@ -15,9 +15,9 @@ import java.util.List;
 public class ButtonEventsHandler {
 
     // EventListener
-    public void ListenerInventoryButtons(TemplateTabelView view, List<Inventory> tabelData){
+    public void ListenerInventoryButtons(TemplateTabelView view, List<Inventory> tabelData, List<Customer> customerData){
 
-        // Verkaufen
+        // Button Verkaufen
         view.button1.addActionListener( e -> {
 
             int selectIndex = view.jTable.getSelectedRow();
@@ -29,31 +29,35 @@ public class ButtonEventsHandler {
                 tabelData.get(selectIndex).setiValue(tabelData.get(selectIndex).getiValue());
             }
 
+            // Tabelle updaten
             view.jTable.setValueAt(tabelData.get(selectIndex).getiValue(),selectIndex,4);
 
-            //todo
             // Veränderung in DB eintragen
+            InventroyHandler.updateInventoryDB( tabelData.get(selectIndex).getId(),
+                                                tabelData.get(selectIndex).getiValue());
         });
 
-        // Bestellen //todo Überarbeiten
+        // Button Bestand erhöhen
         view.button2.addActionListener( e -> {
-
-            // Auswahl des zu Bestellenden Manga
-            int selectIndex = view.jTable.getSelectedRow();
-            String selectedManga = tabelData.get(selectIndex).getiManga().getName();
-
-            // Neues Fenster Aufrufen zur Nutzerauswahl
-            new UserSelectWindow(selectedManga);
-        });
-
-        // Bestand erhöhen
-        view.button3.addActionListener( e -> {
             int selectIndex = view.jTable.getSelectedRow();
             tabelData.get(selectIndex).setiValue(tabelData.get(selectIndex).getiValue()+1);
             view.jTable.setValueAt(tabelData.get(selectIndex).getiValue(),selectIndex,4);
 
-            //todo
-            // In Datenbank eintrage
+            // Veränderung in DB eintragen
+            InventroyHandler.updateInventoryDB( tabelData.get(selectIndex).getId(),
+                                                tabelData.get(selectIndex).getiValue());
+        });
+
+        // Bestellen - öffnet Bestell-Fenster
+        view.button3.addActionListener( e -> {
+
+            // Auswahl des zu Bestellenden Manga
+            int selectIndex = view.jTable.getSelectedRow();
+            String selectedManga = tabelData.get(selectIndex).getiManga().getName();
+            int band = tabelData.get(selectIndex).getiManga().getNumber();
+
+            // Neues Fenster Aufrufen zur Nutzerauswahl
+            new UserSelectWindow(selectedManga, band, customerData);
         });
     }
 
@@ -63,6 +67,18 @@ public class ButtonEventsHandler {
         // Serie bestellen
         view.button1.addActionListener( e -> {
             // Bestellvorgang aus Abfrage 1 für komplette Serie ausführen
+
+            int selectIndex = view.jTable.getSelectedRow();
+            String selectedManga = tabelData.get(selectIndex).getMsName(); // MangaSerie bestimmen
+           // String selectedManga = tabelData.get(selectIndex).getiManga().getName();
+            //tabelData.get(selectIndex).setiValue(tabelData.get(selectIndex).getiValue()+1);
+            //view.jTable.setValueAt(tabelData.get(selectIndex).getiValue(),selectIndex,4);
+
+            //todo: Order tabel laden
+
+            //todo
+            // in Tabelle/ Datenbank Bestellungen kreieren
+
         });
 
         // Serie um 1 Band erhöhen -> neuen Bände in Inventar anlegen
@@ -72,7 +88,7 @@ public class ButtonEventsHandler {
             tabelData.get(selectIndex).setMsAnzahl(tabelData.get(selectIndex).getMsAnzahl()+1); // Erehöht Bände um 1
             view.jTable.setValueAt(tabelData.get(selectIndex).getMsAnzahl(),selectIndex,1);
 
-            MangaSerieHandler.updateInventoryDB(tabelData.get(selectIndex).getMsName(),tabelData.get(selectIndex).getMsAnzahl());
+            MangaSerieHandler.updateMangaSerieDB(tabelData.get(selectIndex).getMsName(),tabelData.get(selectIndex).getMsAnzahl());
 
             // Legt neuen Manga in der DB an, NEW und USED
             MangaSerieHandler.addMangaToInventory(  tabelData.get(selectIndex).getMsName(),
@@ -85,8 +101,12 @@ public class ButtonEventsHandler {
                                                     Inventory.Condition.Used);
 
             // ToDO - Tabelle Manga neu laden
-            // dose nor work :(
-            ViewHandler.refreashInventoryTable();
+            // Überarbeiten, ev daten zusätzlich holen und hier senden?
+            //ViewHandler.refreashInventoryTable();
+
+            // Serienbestellungen updaten!
+            // Alle Kunden die eine Serie bestellt haben, erhalten auch den neuen Band!
+
         });
 
         // Serie anlegen

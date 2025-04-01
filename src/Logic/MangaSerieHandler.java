@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class MangaSerieHandler extends DatebaseHandler {
 
 
-    public static void updateInventoryDB(String name, int value) {
+    public static void updateMangaSerieDB(String name, int value) {
         try {
             Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
             String query = "UPDATE MangaSerie SET anzahl = ? WHERE manganame = ?";
@@ -19,8 +19,8 @@ public class MangaSerieHandler extends DatebaseHandler {
             try (PreparedStatement pstmt = connection.prepareStatement(query)) {
 
                 // Parameter setzen
-                pstmt.setInt(1, value);  // Ändert den Namen in der 'name'-Spalte
-                pstmt.setString(2, name);     // Setzt die ID des Datensatzes, der aktualisiert werden soll
+                pstmt.setInt(1, value);  // Ändert
+                pstmt.setString(2, name);     // Datensatzes, der aktualisiert werden soll
 
                 // SQL-Abfrage ausführen und Anzahl der betroffenen Zeilen erhalten
                 int rowsAffected = pstmt.executeUpdate();
