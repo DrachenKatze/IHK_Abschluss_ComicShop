@@ -53,12 +53,10 @@ public class ViewHandler {
         initView(customerAdministration, customerAdministrationTableColumNames, customerDaten.createStringLine(customerList));
 
         // ButtonEvents zuweisen, darf erst nach dem Initialisieren der Buttons erfolgen
-        buttonEvents.ListenerInventoryButtons(itemInventory, inventoryList, customerList); // Inventar + Kunden
+        buttonEvents.ListenerInventoryButtons(itemInventory, inventoryList, customerList, orderList); // Inventar + Kunden
         buttonEvents.ListenerItemOverview(itemOverview, mangaSerieListe);
         buttonEvents.ListenerOrderButtons(orderStatus);
         buttonEvents.ListenerCustomerAdministration(customerAdministration);
-
-        //todo: Sort by Name ausgeben??
     }
 
     // Initialisiert die Spezifische View und fügt die Daten ein

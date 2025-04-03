@@ -1,6 +1,9 @@
 package Views;
 
+import Logic.OrderHandler;
 import Model.Customer;
+import Model.Manga;
+import Model.Order;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +24,7 @@ public class UserSelectWindow {
     JLabel info;
     public JComboBox<String> userSelect;
 
-    public UserSelectWindow(String selectedManga, int band, List<Customer> customerData){
+    public UserSelectWindow(String selectedManga, int band, List<Customer> customerData, Manga.MangaStatus status){
 
         // Set Window
         userSelectWindow.setSize(400,300);
@@ -48,17 +51,44 @@ public class UserSelectWindow {
         windowPanel.add(userSelect);
         windowPanel.add(bestellen);
         windowPanel.add(abbrechen);
-        ListenerButtons();
+        ListenerButtons(status.toString());
 
         windowPanel.setVisible(true);
     }
 
-    public void ListenerButtons() {
+    public void ListenerButtons(String mangaStatus) {
 
         bestellen.addActionListener(e -> {
-            //todo
-            // Bestellung anlegen
+
+            // todo  Bestellung in View eintragen
+            // Bestellung in der OrderList anlegen // wird ev nicht benötiggt
+            // OrderHandler.addOrder(selectedManga,band,userSelect.getSelectedItem().toString());
+            // targetview.initview();
+
             // Bestellung in DB eintragen
+
+            // Daten vorbereiten
+            String user = userSelect.getSelectedItem().toString();
+            int id = userSelect.getSelectedIndex() + 1; // +1 da id in Datenbank nicht bei 0 beginnt
+
+            // Bestellstatus festlegen
+            Order.BestellStatus orderstatus = Order.BestellStatus.hold; // default
+
+            switch (mangaStatus){
+                case "Announced" : orderstatus = Order.BestellStatus.pending;
+                    break;
+                case "Available" : orderstatus = Order.BestellStatus.openPayment;
+                    break;
+                case "RePrint" : orderstatus = Order.BestellStatus.pending;
+                    break;
+                case "OutOfPrint" : orderstatus = Order.BestellStatus.hold;
+                    break;
+            }
+
+            OrderHandler.insertOrderDB(selectedManga,band,orderstatus,id);
+
+            // Beendet das Fentser nach der Bestellung
+            userSelectWindow.dispose();
         });
 
         abbrechen.addActionListener( e -> {

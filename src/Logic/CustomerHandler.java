@@ -41,7 +41,7 @@ public class CustomerHandler extends DatebaseHandler{
     }
 
     // todo
-    // Schreibe Datensatz in Datenbank
+    public static void insertCustomerDB(){}
 
     // erzeugt String Liste für die Ausgabe in der Tabelle
     public String[][] createStringLine(List<Customer> customerList){

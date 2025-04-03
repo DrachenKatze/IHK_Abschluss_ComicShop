@@ -15,7 +15,7 @@ import java.util.List;
 public class ButtonEventsHandler {
 
     // EventListener
-    public void ListenerInventoryButtons(TemplateTabelView view, List<Inventory> tabelData, List<Customer> customerData){
+    public void ListenerInventoryButtons(TemplateTabelView view, List<Inventory> tabelData, List<Customer> customerData, List<Order> orderData){
 
         // Button Verkaufen
         view.button1.addActionListener( e -> {
@@ -56,8 +56,9 @@ public class ButtonEventsHandler {
             String selectedManga = tabelData.get(selectIndex).getiManga().getName();
             int band = tabelData.get(selectIndex).getiManga().getNumber();
 
-            // Neues Fenster Aufrufen zur Nutzerauswahl
-            new UserSelectWindow(selectedManga, band, customerData);
+
+            // Neues Fenster Aufrufen zur Nutzerauswahl (Manga/ NutzerDaten/ MangaStatus)
+            new UserSelectWindow(selectedManga, band, customerData, tabelData.get(selectIndex).getStatus());
         });
     }
 

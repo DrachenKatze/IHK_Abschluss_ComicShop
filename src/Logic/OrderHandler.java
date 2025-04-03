@@ -44,9 +44,33 @@ public class OrderHandler extends DatebaseHandler{
     return orderList;
 }
 
-    // todo
-    // Schreibe Datensatz in Datenbank
+    // Fügt eine Bestellung in die Datenbank ein
+    public static void insertOrderDB(String name, int bandnr, Order.BestellStatus bestellstatus, int kundenid){
 
+        try {
+            Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+            String query = "INSERT INTO Orders (manganame, bandnr, bestellstatus, kundenid) VALUES (?, ?, ?, ?)";
+
+            try (PreparedStatement pstmt = connection.prepareStatement(query)){
+
+                // Zeile Neuer Manga
+                pstmt.setString(1, name);
+                pstmt.setInt(2, bandnr);
+                pstmt.setString(3, bestellstatus.toString());
+                pstmt.setInt(4,kundenid);
+
+                // Schritt 5: SQL-Abfrage ausführen und Datensatz hinzufügen
+                int rowsAffected = pstmt.executeUpdate();
+                System.out.println(rowsAffected + " Zeile(n) eingefügt.");
+
+            }catch (SQLException e) {
+                System.out.println("Fehler beim Einfügen des Datensatzes: " + e.getMessage());
+            }
+        }catch(SQLException e) {
+            System.out.println("Fehler bei der Verbindung zur Datenbank: " + e.getMessage());
+        }
+
+    }
 
     // Gibt StringLine zurück für Tabellen GUI Ausgabe
     public String[][] createStringLine(List<Order> orderList){

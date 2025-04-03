@@ -2,7 +2,8 @@ package Model;
 
 public class Order {
 
-    public enum BestellStatus{openPayment, payed, delivered, pending, hold, canceled}; // pending is for not in Stock, hold is for OutofPrint Comics
+    // pending is for not in Stock, hold is for OutofPrint Comics
+    public enum BestellStatus{openPayment, payed, delivered, pending, hold, canceled};
 
     private Manga orderdManga;
     private BestellStatus orderStatus;
@@ -49,6 +50,7 @@ public class Order {
         this.orderCustomer = customer;
     }
 
+    // Bestellung auslösen, setzt den Customer und prüft Bestellstatus
     public void takeOrder(Manga oManga, Customer customer){
         this.orderdManga = oManga;
 
@@ -106,5 +108,4 @@ public class Order {
 
         return temp;
     }
-
 }
