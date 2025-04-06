@@ -11,7 +11,7 @@ import java.util.List;
 public class OrderHandler extends DatebaseHandler{
 
     // ladet die Bestelldaten aus der Datenbank
-    public List<Order> loadOrdersList(){
+    public static List<Order> loadOrdersList(){
 
     //Lokale Bestell-Liste
     List<Order> orderList = new ArrayList<>();
@@ -45,7 +45,7 @@ public class OrderHandler extends DatebaseHandler{
 }
 
     // Fügt eine Bestellung in die Datenbank ein
-    public static void insertOrderDB(String name, int bandnr, Order.BestellStatus bestellstatus, int kundenid){
+    public static void insertOrderDB(String name, int bandnr, Order.OrderStatus bestellstatus, int kundenid){
 
         try {
             Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -73,7 +73,7 @@ public class OrderHandler extends DatebaseHandler{
     }
 
     // Gibt StringLine zurück für Tabellen GUI Ausgabe
-    public String[][] createStringLine(List<Order> orderList){
+    public static String[][] createStringLine(List<Order> orderList){
         int anz = orderList.size();
         String[][] stringList = new String[anz][4];
 

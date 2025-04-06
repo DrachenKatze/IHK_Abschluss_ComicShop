@@ -53,15 +53,15 @@ public class ViewHandler {
         initView(customerAdministration, customerAdministrationTableColumNames, customerDaten.createStringLine(customerList));
 
         // ButtonEvents zuweisen, darf erst nach dem Initialisieren der Buttons erfolgen
-        buttonEvents.ListenerInventoryButtons(itemInventory, inventoryList, customerList, orderList); // Inventar + Kunden
-        buttonEvents.ListenerItemOverview(itemOverview, mangaSerieListe);
+        buttonEvents.ListenerInventoryButtons(itemInventory, inventoryList, customerList, orderList, orderStatus); // Inventar + Kunden
+        buttonEvents.ListenerItemOverview(itemOverview, mangaSerieListe, customerList, itemInventory, inventoryList, orderStatus);
         buttonEvents.ListenerOrderButtons(orderStatus);
         buttonEvents.ListenerCustomerAdministration(customerAdministration);
     }
 
     // Initialisiert die Spezifische View und fügt die Daten ein
     // TabellenView, Tabellen Spalten-Überschriften, Tabellen-Inhalt
-    private static void initView(TemplateTabelView view, String[] columNames, String[][] rowArray){
+    public static void initView(TemplateTabelView view, String[] columNames, String[][] rowArray){
         view.initPanel(); // Panel laden
         view.initTabel(columNames); // Tabelle mit Überschrift laden
         view.setLayout(view); // Layout anwenden
@@ -70,5 +70,6 @@ public class ViewHandler {
         for (int i = 0; i < rowArray.length; i++) {
             view.addRow(rowArray[i]);
         }
+
     }
 }

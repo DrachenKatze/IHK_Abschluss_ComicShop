@@ -1,4 +1,6 @@
-package Views;
+package Old;
+
+import Views.TemplateTabelView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,8 +13,6 @@ public class StatusSelectWindow {
     String[] selectedStatus;
     String[] selectedUser;
     TemplateTabelView view;
-
-
 
     public StatusSelectWindow(int selectedRow, TemplateTabelView view){
 
@@ -41,6 +41,4 @@ public class StatusSelectWindow {
     private void setStatus(String[] selectedStatus, int selectIndex) {
         view.jTable.setValueAt(selectedStatus,selectIndex,3);
     }
-
-
 }

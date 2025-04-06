@@ -11,7 +11,7 @@ import java.util.List;
 public class InventroyHandler extends DatebaseHandler{
 
     // Lade Daten aus der Manga Datenbank
-    public List<Inventory> loadInventoryList(){
+    public static List<Inventory> loadInventoryList(){
 
         //Lokale Liste
         List<Inventory> storeInventory = new ArrayList<>();

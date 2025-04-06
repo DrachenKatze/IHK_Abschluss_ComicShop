@@ -3,10 +3,10 @@ package Model;
 public class Order {
 
     // pending is for not in Stock, hold is for OutofPrint Comics
-    public enum BestellStatus{openPayment, payed, delivered, pending, hold, canceled};
+    public enum OrderStatus {openPayment, payed, delivered, pending, hold, canceled};
 
     private Manga orderdManga;
-    private BestellStatus orderStatus;
+    private OrderStatus orderStatus;
     private boolean paymentStatus; // Benötigt?
     private boolean deliverStatus; // Benötigt?
     private Customer orderCustomer;
@@ -15,7 +15,7 @@ public class Order {
     public Manga getOrderdManga() {
         return orderdManga;
     }
-    public BestellStatus getOrderStatus() {
+    public OrderStatus getOrderStatus() {
         return orderStatus;
     }
     public boolean isPaymentStatus() {
@@ -29,22 +29,22 @@ public class Order {
     }
 
     // Setter
-    public void setStatus(BestellStatus status) {
+    public void setStatus(OrderStatus status) {
         orderStatus = status;
     }
     public void setPaymentStatus(){
         paymentStatus = true;
-        orderStatus = BestellStatus.payed;
+        orderStatus = OrderStatus.payed;
     }
     public void setDeliverStatus(){
         deliverStatus = true;
-        orderStatus = BestellStatus.delivered;
+        orderStatus = OrderStatus.delivered;
         // todo bestand reduzieren
     }
     public void setOrderCustomer(Customer orderCustomer){
         this.orderCustomer = orderCustomer;
     }
-    public void SetOrder(Manga orderdManga, BestellStatus orderStatus, Customer customer){
+    public void SetOrder(Manga orderdManga, OrderStatus orderStatus, Customer customer){
         this.orderdManga = orderdManga;
         this.orderStatus = orderStatus;
         this.orderCustomer = customer;
@@ -58,14 +58,14 @@ public class Order {
         int localGoods = 1; // Replace with: Bestandsabfrage aus Bestands-Liste/Klasse Neu/Gebraucht beachten
 
         if (localGoods >= 1){   // Manga ist im Bestand
-            orderStatus = BestellStatus.openPayment;
+            orderStatus = OrderStatus.openPayment;
         } else if (localGoods == 0){    // Manga kann bestellt werden (Verfügbar/Nachdruck/Angekündigt)
             if (    orderdManga.getStatus().equals(Manga.MangaStatus.Available) ||
                     orderdManga.getStatus().equals(Manga.MangaStatus.RePrint) ||
                     orderdManga.getStatus().equals(Manga.MangaStatus.Announced) ) {
-                    orderStatus = BestellStatus.pending; // pending, warte darauf das der Bestand erhöht wird
+                    orderStatus = OrderStatus.pending; // pending, warte darauf das der Bestand erhöht wird
             } else { // Manga ist nicht verfügbar (Out of Print)
-                    orderStatus = BestellStatus.hold;
+                    orderStatus = OrderStatus.hold;
             }
         }
         this.orderCustomer = customer;
@@ -79,30 +79,47 @@ public class Order {
         int localGoods = 1; // Replace with: Bestandsabfrage aus Bestands-Liste/Klasse Neu/Gebraucht beachten
 
         if (localGoods >= 1){
-            this.orderStatus = BestellStatus.openPayment;
+            this.orderStatus = OrderStatus.openPayment;
             changed = true;
         }
 
         return changed;
     }
 
-    // Gibt aus einem String das passende ENUM zurück
-    public static BestellStatus getBestellStatusByString(String statusString){
+    public static OrderStatus getOrderStatus(String mangaStatus){
 
-        BestellStatus temp = BestellStatus.hold; // Standard auf Hold, falls Daten nicht gefunden werden
+        OrderStatus orderstatus = OrderStatus.hold; // default
+        switch (mangaStatus){
+            case "Announced" : orderstatus = OrderStatus.pending;
+                break;
+            case "Available" : orderstatus = OrderStatus.openPayment;
+                break;
+            case "RePrint" : orderstatus = OrderStatus.pending;
+                break;
+            case "OutOfPrint" : orderstatus = OrderStatus.hold;
+                break;
+        }
+
+        return orderstatus;
+    }
+
+    // Gibt aus einem String das passende ENUM zurück
+    public static OrderStatus getBestellStatusByString(String statusString){
+
+        OrderStatus temp = OrderStatus.hold; // Standard auf Hold, falls Daten nicht gefunden werden
 
         switch(statusString){
-            case "openPayment": temp = BestellStatus.openPayment;
+            case "openPayment": temp = OrderStatus.openPayment;
                 break;
-            case "payed": temp = BestellStatus.payed;
+            case "payed": temp = OrderStatus.payed;
                 break;
-            case "delivered": temp = BestellStatus.delivered;
+            case "delivered": temp = OrderStatus.delivered;
                 break;
-            case "pending": temp = BestellStatus.pending;
+            case "pending": temp = OrderStatus.pending;
                 break;
-            case "hold": temp = BestellStatus.hold;
+            case "hold": temp = OrderStatus.hold;
                 break;
-            case "canceled": temp = BestellStatus.canceled;
+            case "canceled": temp = OrderStatus.canceled;
                 break;
         }
 

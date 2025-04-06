@@ -9,7 +9,7 @@ import Model.Order;
 public class TemplateTabelView {
 
     JPanel jPanel = new JPanel();
-    static DefaultTableModel defaultTableModel;
+    DefaultTableModel defaultTableModel;
     GridBagLayout gbl = new GridBagLayout();
     GridBagConstraints gbc = new GridBagConstraints();
 
@@ -20,7 +20,7 @@ public class TemplateTabelView {
     public JButton button1 = new JButton(" ");
     public JButton button2 = new JButton(" ");
     public JButton button3 = new JButton(" ");
-    public JComboBox<Order.BestellStatus> statusSelect = new JComboBox<>(Order.BestellStatus.values());
+    public JComboBox<Order.OrderStatus> statusSelect = new JComboBox<>(Order.OrderStatus.values());
 
     // Konstruktor - setzt die Farbe des TabellenRahmen
     public TemplateTabelView(){
@@ -31,17 +31,11 @@ public class TemplateTabelView {
     protected void initPanel() {
         filter.setPreferredSize(new Dimension(160, 40));
 
-        //Button Funktionen
-
-
-        // ExAMPLE
-        /*
+        /* ExAMPLE
         button3.addActionListener(e -> {
             //fuktionalität
             JOptionPane.showMessageDialog(jPanel, "Button geklickt!");
-        });
-        */
-
+        }); */
     }
 
     // Tabelle initialisieren
@@ -85,8 +79,9 @@ public class TemplateTabelView {
         jPanel.add(button3, gbc);
 
     }
+
     // Zeile hinzufügen
-    protected void addRow(String[] row){
+    public void addRow(String[] row){
         defaultTableModel.addRow(row);
     }
 
@@ -109,6 +104,7 @@ public class TemplateTabelView {
         button2.setVisible(false);
         statusSelect.setVisible(true); // Status ändern
         button3.setVisible(false);
+        //button3 = new JButton("Aktualisieren");
     }
 
     public void initCustomerAdministrationButtons(){
