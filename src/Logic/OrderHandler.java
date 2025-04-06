@@ -72,6 +72,36 @@ public class OrderHandler extends DatebaseHandler{
 
     }
 
+    public static void updateOrderDB(String name, int band, String user, String status) {
+
+        System.out.println(name + band + user + status);
+
+        try {
+            Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+            String query = "UPDATE Orders SET bestellstatus = ? From Customer " +
+                            "WHERE Orders.kundenid = Customer.kundenid AND manganame = ? AND bandnr ? AND customer ?";
+
+            try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+
+                // Parameter setzen
+                pstmt.setString(1, status);  // Ändert
+                // Datensatzes, der aktualisiert werden soll
+                pstmt.setString(2, name);
+                pstmt.setInt(3, band);
+                pstmt.setString(4, user);
+
+                // SQL-Abfrage ausführen und Anzahl der betroffenen Zeilen erhalten
+                int rowsAffected = pstmt.executeUpdate();
+                System.out.println(rowsAffected + " Zeile(n) aktualisiert." + name + band + user  + status);
+
+            } catch (SQLException e) {
+                System.out.println("Fehler beim Aktualisieren des Datensatzes: " + e.getMessage());
+            }
+        }catch (SQLException e) {
+            System.out.println("Fehler bei der Verbindung zur Datenbank: " + e.getMessage());
+        }
+    }
+
     // Gibt StringLine zurück für Tabellen GUI Ausgabe
     public static String[][] createStringLine(List<Order> orderList){
         int anz = orderList.size();

@@ -124,12 +124,26 @@ public class ButtonEventsHandler {
         view.button1.addActionListener( e -> {
             int selectIndex = view.jTable.getSelectedRow();
             view.jTable.setValueAt(Order.OrderStatus.canceled.toString(),selectIndex,3);
+
+            String name = view.jTable.getValueAt(selectIndex,0).toString();
+            String nr = view.jTable.getValueAt(selectIndex,1).toString();
+            String user = view.jTable.getValueAt(selectIndex,2).toString();
+            int bandnr = Integer.parseInt(nr);
+
+            OrderHandler.updateOrderDB(name, bandnr, user, Order.OrderStatus.canceled.toString());
         });
 
         // Status ändern
         view.statusSelect.addActionListener( e -> {
             int selectIndex = view.jTable.getSelectedRow();
             view.jTable.setValueAt(view.statusSelect.getSelectedItem().toString(),selectIndex,3);
+
+            String name = view.jTable.getValueAt(selectIndex,0).toString();
+            String nr = view.jTable.getValueAt(selectIndex,1).toString();
+            String user = view.jTable.getValueAt(selectIndex,2).toString();
+            int bandnr = Integer.parseInt(nr);
+
+            OrderHandler.updateOrderDB(name, bandnr, user, view.statusSelect.getSelectedItem().toString());
         });
 
         // Status prüfen
