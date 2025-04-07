@@ -22,7 +22,7 @@ public class UserSelectWindowOrder {
     GridBagLayout gbl = new GridBagLayout();
     GridBagConstraints gbc = new GridBagConstraints();
     JButton bestellen = new JButton("Bestellen");
-    JButton abbrechen = new JButton("abbrechen");
+    JButton abbrechen = new JButton("Abbrechen");
     JLabel empty = new JLabel("   ");
     JLabel info;
     public JComboBox<String> userSelect;
