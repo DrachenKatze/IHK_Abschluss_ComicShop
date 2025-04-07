@@ -18,7 +18,7 @@ public class InventroyHandler extends DatebaseHandler{
 
         try{
             Connection connection = DriverManager.getConnection(URL,USER,PASSWORD);
-            String query = "SELECT * FROM MangaInventory ORDER BY manganame";
+            String query = "SELECT * FROM MangaInventory ORDER BY manganame, bandnummer";
 
             try (Statement statement = connection.createStatement()) {
                 ResultSet rs = statement.executeQuery(query);

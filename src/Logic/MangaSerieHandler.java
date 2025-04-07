@@ -70,7 +70,7 @@ public class MangaSerieHandler extends DatebaseHandler {
 
         try{
             Connection connection = DriverManager.getConnection(URL,USER,PASSWORD);
-            String query = "SELECT * FROM MangaSerie";
+            String query = "SELECT * FROM MangaSerie ORDER BY manganame";
 
             try (Statement statement = connection.createStatement()) {
                 ResultSet rs = statement.executeQuery(query);
