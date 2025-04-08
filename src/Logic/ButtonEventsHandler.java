@@ -6,6 +6,7 @@ import Views.TemplateTabelView;
 import Views.UserSelectWindowMultiOrder;
 import Views.UserSelectWindowOrder;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static Logic.InventroyHandler.loadInventoryList;
@@ -33,7 +34,7 @@ public class ButtonEventsHandler {
 
             // Veränderung in DB eintragen
             InventroyHandler.updateInventoryDB( tabelData.get(selectIndex).getId(),
-                                                tabelData.get(selectIndex).getiValue());
+                    tabelData.get(selectIndex).getiValue());
         });
 
         // Button Bestand erhöhen
@@ -44,7 +45,7 @@ public class ButtonEventsHandler {
 
             // Veränderung in DB eintragen
             InventroyHandler.updateInventoryDB( tabelData.get(selectIndex).getId(),
-                                                tabelData.get(selectIndex).getiValue());
+                    tabelData.get(selectIndex).getiValue());
         });
 
         // Bestellen - öffnet Bestell-Fenster
@@ -85,25 +86,32 @@ public class ButtonEventsHandler {
 
             // Legt neuen Manga in der Datenbank an, NEW
             MangaSerieHandler.addMangaToInventory(  tabelData.get(selectIndex).getMsName(),
-                                                    tabelData.get(selectIndex).getMsAnzahl(),
-                                                   7.50d,
-                                                   Inventory.Condition.New);
+                    tabelData.get(selectIndex).getMsAnzahl(),
+                    7.50d,
+                    Inventory.Condition.New);
             // Tabelle Inventory Manga hinzufügen, temporär
+            /* // Da Liste sortiert, geht es so nicht
             List<Inventory> mangaList = loadInventoryList();
             Inventory addedManga = mangaList.getLast();
             String[] manga = new String[] {addedManga.getName(), String.valueOf(addedManga.getNumber()), String.valueOf(addedManga.getPreis()),
                     addedManga.getiCondition().toString(), String.valueOf(addedManga.getiValue()), addedManga.getStatus().toString()};
+             */
+            String[] manga = new String[] {tabelData.get(selectIndex).getMsName(), String.valueOf(tabelData.get(selectIndex).getMsAnzahl()), "7,50 EUR", String.valueOf(Inventory.Condition.New), String.valueOf(0), Manga.MangaStatus.Announced.toString()};
             targetView.addRow(manga);
+
 
             // Legt neuen Manga in der Datenbank an, Used
             MangaSerieHandler.addMangaToInventory(  tabelData.get(selectIndex).getMsName(),
-                                                    tabelData.get(selectIndex).getMsAnzahl(),
-                                               3.50d,
-                                                    Inventory.Condition.Used);
+                    tabelData.get(selectIndex).getMsAnzahl(),
+                    3.50d,
+                    Inventory.Condition.Used);
             // Tabelle Inventory Manga hinzufügen, Temporär
+            /*
             addedManga = mangaList.getLast();
             manga = new String[] {addedManga.getName(), String.valueOf(addedManga.getNumber()), String.valueOf(addedManga.getPreis()),
                     addedManga.getiCondition().toString(), String.valueOf(addedManga.getiValue()), addedManga.getStatus().toString()};
+             */
+            manga = new String[] {tabelData.get(selectIndex).getMsName(), String.valueOf(tabelData.get(selectIndex).getMsAnzahl()), "3,50 EUR", String.valueOf(Inventory.Condition.Used), String.valueOf(0), Manga.MangaStatus.Announced.toString()};
             targetView.addRow(manga);
 
             // todo: Serienbestellungen updaten!

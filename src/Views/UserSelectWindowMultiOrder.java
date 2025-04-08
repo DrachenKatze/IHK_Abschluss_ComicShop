@@ -38,7 +38,7 @@ public class UserSelectWindowMultiOrder {
         userSelectWindow.setLocationRelativeTo(null);
         userSelectWindow.getContentPane().setBackground(new Color(121, 156, 164) );
 
-        info = new JLabel(selectedManga + " Band " + band + "       ");
+        info = new JLabel("Serie bestellen: " + selectedManga + "       ");
         userSelectWindow.setTitle("Einzel-Bestellung");
         userSelectWindow.add(windowPanel);
 
@@ -97,7 +97,7 @@ public class UserSelectWindowMultiOrder {
             // Durchläuft die Inventory-liste um Bestellungen auszulösen
             for (int i = 0; i < inventoryList.size(); i++){
 
-                // Test ob es ein Macht  gibt.
+                // Test ob es ein Match  gibt.
                 if (inventoryList.get(i).getName().equals(selectedManga) &&
                         inventoryList.get(i).getiCondition() == Inventory.Condition.New){
 
